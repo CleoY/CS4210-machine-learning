@@ -27,10 +27,22 @@ with open('contact_lens.csv', 'r') as csvfile:
 # so X = [[1, 1, 1, 1], [2, 2, 2, 2], ...]]
 #--> add your Python code here
 # X =
+
+# Enum each category in each feature?
+# Create new array for each feature? Or just one large 4D arr?
+# Loop through each column and assign a num based on the category
+# Add num to new arr or larger 4D arr
+# Age: Young = 1, Prepresbyopic = 2, Presbyopic = 3
+# Spectacle Prescription: Myope = 1, Hypermetrope = 2
+# Astigmatism: Yes = 1, No = 2
+# Tear production rate: Normal = 1, Reduced = 2
+
+
 #transform the original categorical training classes into numbers and add to the
 #vector Y. For instance Yes = 1, No = 2, so Y = [1, 1, 2, 2, ...]
 #--> add your Python code here
 # Y =
+
 # fitting the decision tree to the data
 clf = tree.DecisionTreeClassifier(criterion = 'entropy')
 clf = clf.fit(X, Y)

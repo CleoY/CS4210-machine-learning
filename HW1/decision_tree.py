@@ -15,6 +15,7 @@ import csv
 db = []
 X = []
 Y = []
+
 #reading the data in a csv file
 with open('contact_lens.csv', 'r') as csvfile:
     reader = csv.reader(csvfile)
@@ -26,13 +27,10 @@ with open('contact_lens.csv', 'r') as csvfile:
 #transform the original categorical training features into numbers and add to the
 # 4D array X. For instance Young = 1, Prepresbyopic = 2, Presbyopic = 3
 # so X = [[1, 1, 1, 1], [2, 2, 2, 2], ...]]
-#--> add your Python code here
-# X =
 
 for i, row in enumerate(db):
     X.append([])
     for col in range(len(row)-1):
-        #print("i: "+ str(i) + ", col: "+ str(col))
         tempItem = row[col]
 
         # Age column
@@ -64,23 +62,10 @@ for i, row in enumerate(db):
                 X[i].append(1)
             elif tempItem == "Reduced":
                 X[i].append(2)
-print(X)
-
-# Enum each category in each feature?
-# Create new array for each feature? Or colust one large 4D arr?
-# Loop through each column and assign a num based on the category
-# Add num to new arr or larger 4D arr
-# Age: Young = 1, Prepresbyopic = 2, Presbyopic = 3
-# Spectacle Prescription: Myope = 1, Hypermetrope = 2
-# Astigmatism: Yes = 1, No = 2
-# Tear production rate: Normal = 1, Reduced = 2
-#   db[0] = first row of dataset
-
+#print(X)
 
 #transform the original categorical training classes into numbers and add to the
 #vector Y. For instance Yes = 1, No = 2, so Y = [1, 1, 2, 2, ...]
-#--> add your Python code here
-# Y =
 classLabelColIndex = 4
 for row in db:
     tempItem = row[classLabelColIndex]
@@ -88,12 +73,12 @@ for row in db:
         Y.append(1)
     elif tempItem == "No":
         Y.append(2)
-
-print(Y)
+# print(Y)
 
 # fitting the decision tree to the data
 clf = tree.DecisionTreeClassifier(criterion = 'entropy')
 clf = clf.fit(X, Y)
+
 #plotting the decision tree
 tree.plot_tree(clf, feature_names=['Age', 'Spectacle', 'Astigmatism', 'Tear'],
 class_names=['Yes','No'], filled=True, rounded=True)

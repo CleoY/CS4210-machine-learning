@@ -1,11 +1,12 @@
 #-------------------------------------------------------------------------
 # AUTHOR: Cleo Yau
 # FILENAME: decision_tree.py
-# SPECIFICATION: description of the program
+# SPECIFICATION: Create a decision tree based on the contact lens data with
+#   "Recommended Lenses" column as the class label.
 # FOR: CS 4210 Assignment #1
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 2 hours for the program
 #-----------------------------------------------------------*/
-#IMPORTANT NOTE: DO NOT USE ANY ADVANCED PYTHON LIBRARY TO COMPLETE THIS CODE SUCH AS numpy OR pandas. You have to work here only with standard
+# IMPORTANT NOTE: DO NOT USE ANY ADVANCED PYTHON LIBRARY TO COMPLETE THIS CODE SUCH AS numpy OR pandas. You have to work here only with standard
 # dictionaries, lists, and arrays
 # importing some Python libraries
 from sklearn import tree
@@ -28,20 +29,67 @@ with open('contact_lens.csv', 'r') as csvfile:
 #--> add your Python code here
 # X =
 
+for i, row in enumerate(db):
+    X.append([])
+    for col in range(len(row)-1):
+        #print("i: "+ str(i) + ", col: "+ str(col))
+        tempItem = row[col]
+
+        # Age column
+        if col == 0:
+            if tempItem == "Young":
+                X[i].append(1)
+            elif tempItem == "Prepresbyopic":
+                X[i].append(2)
+            elif tempItem == "Presbyopic":
+                X[i].append(3)
+        
+        # Spectacle prescription col
+        if col == 1:
+            if tempItem == "Myope":
+                X[i].append(1)
+            elif tempItem == "Hypermetrope":
+                X[i].append(2)
+
+        # Astigmatism col
+        if col == 2:
+            if tempItem == "Yes":
+                X[i].append(1)
+            elif tempItem == "No":
+                X[i].append(2)
+
+        # Tear production rate col
+        if col == 3:
+            if tempItem == "Normal":
+                X[i].append(1)
+            elif tempItem == "Reduced":
+                X[i].append(2)
+print(X)
+
 # Enum each category in each feature?
-# Create new array for each feature? Or just one large 4D arr?
+# Create new array for each feature? Or colust one large 4D arr?
 # Loop through each column and assign a num based on the category
 # Add num to new arr or larger 4D arr
 # Age: Young = 1, Prepresbyopic = 2, Presbyopic = 3
 # Spectacle Prescription: Myope = 1, Hypermetrope = 2
 # Astigmatism: Yes = 1, No = 2
 # Tear production rate: Normal = 1, Reduced = 2
+#   db[0] = first row of dataset
 
 
 #transform the original categorical training classes into numbers and add to the
 #vector Y. For instance Yes = 1, No = 2, so Y = [1, 1, 2, 2, ...]
 #--> add your Python code here
 # Y =
+classLabelColIndex = 4
+for row in db:
+    tempItem = row[classLabelColIndex]
+    if tempItem == "Yes":
+        Y.append(1)
+    elif tempItem == "No":
+        Y.append(2)
+
+print(Y)
 
 # fitting the decision tree to the data
 clf = tree.DecisionTreeClassifier(criterion = 'entropy')

@@ -23,7 +23,7 @@ for ds in dataSets:
         for i, row in enumerate(reader):
             if i > 0: #skipping the header
                 dbTraining.append (row)
-                #print(row)
+                print(row)
     
     # transform the original categorical training features to numbers and add to the 4D array X. For instance Young = 1, Prepresbyopic = 2, Presbyopic = 3
     # so X = [[1, 1, 1, 1], [2, 2, 2, 2], ...]]
@@ -80,8 +80,14 @@ for ds in dataSets:
         clf = tree.DecisionTreeClassifier(criterion = 'entropy', max_depth=3)
         clf = clf.fit(X, Y)
         #read the test data and add this data to dbTest
-        #--> add your Python code here
-        # dbTest =
+        dbTest = []
+        with open("contact_lens_test.csv", 'r') as csvfile:
+            reader2 = csv.reader(csvfile)
+            for i, row in enumerate(reader2):
+                if i > 0: #skipping the header
+                    dbTest.append (row)
+                    print(row)
+        
         #for data in dbTest:
             #transform the features of the test instances to numbers following the same strategy done during training,
             #and then use the decision tree to make the class prediction. For instance: class_predicted = clf.predict([[3, 1, 2, 1]])[0]

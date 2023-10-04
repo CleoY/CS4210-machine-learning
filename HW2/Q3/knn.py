@@ -10,7 +10,6 @@
 from sklearn.neighbors import KNeighborsClassifier
 import csv
 db = []
-
 errorRate = 0
 
 #reading the data in a csv file

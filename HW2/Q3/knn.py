@@ -11,6 +11,8 @@ from sklearn.neighbors import KNeighborsClassifier
 import csv
 db = []
 
+errorRate = 0
+
 #reading the data in a csv file
 with open('./binary_points.csv', 'r') as csvfile:
     reader = csv.reader(csvfile)
@@ -18,20 +20,12 @@ with open('./binary_points.csv', 'r') as csvfile:
         if i > 0: #skipping the header
             db.append (row)
 
-# variable to exclude in training
-testInstance = 0
-
 #loop your data to allow each instance to be your test set
 for recordIndex, record in enumerate(db):
     #add the training features to the 2D array X removing the instance that will be used for testing in this iteration. 
     # For instance, X = [[1, 3], [2, 1,], ...]]. Convert each feature value to
     # float to avoid warning messages
     X = []
-    
-    # j in X[j].append(tempItem) is wrong because some indices are skipped and would be out-of-range
-    # the index used to append data to X should be dif from the index of the database in the larger loop
-    # the same index should be kept for skipping the class label of the test instance when init Y
-    ####
     xIndex = 0
     for j, row in enumerate(db):
         if(j != recordIndex):
@@ -42,11 +36,9 @@ for recordIndex, record in enumerate(db):
                 X[xIndex].append(tempItem)
 
             xIndex+=1
-
-    #####
-    print("\nRecord #"+str(recordIndex))
-    print("X:")
-    print(X)
+    #print("\nRecord #"+str(recordIndex))
+    #print("X:")
+    #print(X)
     
     
     #transform the original training classes to numbers and add to the vector Y removing the instance that will be used for testing in this iteration. 
@@ -60,24 +52,37 @@ for recordIndex, record in enumerate(db):
                 Y.append(1.0)
             elif(tempItem == "-"):
                 Y.append(2.0)
-    print("Y")
-    print(Y)
+    #print("Y")
+    #print(Y)
     
     #store the test sample of this iteration in the vector testSample
-    #--> add your Python code here
-    #testSample =
+    testSample = []
+    for col in range(len(db[recordIndex])-1):
+        testSample.append(float(db[recordIndex][col]))
+    print("\nTest sample: ")
+    print(testSample)
+
+    # The class label is the last value in the db record
+    tempStrLabel = db[recordIndex][len(db[recordIndex])-1]
+    print("String class label: "+tempStrLabel)
+    if(tempStrLabel == "+"):
+        testLabel = 1.0
+    elif(tempStrLabel == "-"):
+        testLabel = 2.0
     
     #fitting the knn to the data
     clf = KNeighborsClassifier(n_neighbors=1, p=2)
     clf = clf.fit(X, Y)
+    
     #use your test sample in this iteration to make the class prediction. 
     # For instance: class_predicted = clf.predict([[1, 2]])[0]
-    #--> add your Python code here
-    
-    #compare the prediction with the true label of the test instance to start calculating the error rate.
-    #--> add your Python code here
+    class_predicted = clf.predict([testSample])[0]
+    print("Predicted class: "+str(class_predicted))
 
-    testInstance+=1
+    #compare the prediction with the true label of the test instance to start calculating the error rate.
+    if(class_predicted != testLabel):
+        errorRate += 1
 
 #print the error rate
-#--> add your Python code here
+errorRate /= (len(db)-1)
+print("Error rate: "+str(errorRate))

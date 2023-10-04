@@ -65,8 +65,14 @@ print(X)
 
 #transform the original training classes to numbers and add them to the vector Y.
 #For instance Yes = 1, No = 2, so Y = [1, 1, 2, 2, ...]
-#--> add your Python code here
-# Y =
+Y = []
+for row in db:
+    tempItem = row[len(row)-1]
+    if tempItem == "Yes":
+        Y.append(1)
+    elif tempItem == "No":
+        Y.append(2)
+print(Y)
 
 #fitting the naive bayes to the data
 clf = GaussianNB()

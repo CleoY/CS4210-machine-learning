@@ -1,9 +1,9 @@
 #-------------------------------------------------------------------------
 # AUTHOR: Cleo Yau
 # FILENAME: knn.py
-# SPECIFICATION: description of the program
+# SPECIFICATION: Calculate the leave-one-out cross validation error rate for 1NN
 # FOR: CS 4210 - Assignment #2
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 2 hours
 #-----------------------------------------------------------*/
 #IMPORTANT NOTE: DO NOT USE ANY ADVANCED PYTHON LIBRARY TO COMPLETE THIS CODE SUCH AS numpy OR pandas. You have to work here only with standard vectors and arrays
 #importing some Python libraries
@@ -23,8 +23,7 @@ with open('./binary_points.csv', 'r') as csvfile:
 #loop your data to allow each instance to be your test set
 for recordIndex, record in enumerate(db):
     #add the training features to the 2D array X removing the instance that will be used for testing in this iteration. 
-    # For instance, X = [[1, 3], [2, 1,], ...]]. Convert each feature value to
-    # float to avoid warning messages
+    # For instance, X = [[1, 3], [2, 1,], ...]]. Convert each feature value to float to avoid warning messages
     X = []
     xIndex = 0
     for j, row in enumerate(db):
@@ -36,9 +35,6 @@ for recordIndex, record in enumerate(db):
                 X[xIndex].append(tempItem)
 
             xIndex+=1
-    #print("\nRecord #"+str(recordIndex))
-    #print("X:")
-    #print(X)
     
     
     #transform the original training classes to numbers and add to the vector Y removing the instance that will be used for testing in this iteration. 
@@ -52,19 +48,15 @@ for recordIndex, record in enumerate(db):
                 Y.append(1.0)
             elif(tempItem == "-"):
                 Y.append(2.0)
-    #print("Y")
-    #print(Y)
+
     
     #store the test sample of this iteration in the vector testSample
     testSample = []
     for col in range(len(db[recordIndex])-1):
         testSample.append(float(db[recordIndex][col]))
-    print("\nTest sample: ")
-    print(testSample)
 
     # The class label is the last value in the db record
     tempStrLabel = db[recordIndex][len(db[recordIndex])-1]
-    print("String class label: "+tempStrLabel)
     if(tempStrLabel == "+"):
         testLabel = 1.0
     elif(tempStrLabel == "-"):
@@ -77,7 +69,6 @@ for recordIndex, record in enumerate(db):
     #use your test sample in this iteration to make the class prediction. 
     # For instance: class_predicted = clf.predict([[1, 2]])[0]
     class_predicted = clf.predict([testSample])[0]
-    print("Predicted class: "+str(class_predicted))
 
     #compare the prediction with the true label of the test instance to start calculating the error rate.
     if(class_predicted != testLabel):

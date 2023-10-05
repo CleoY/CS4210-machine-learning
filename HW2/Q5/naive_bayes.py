@@ -129,21 +129,50 @@ for i, row in enumerate(testDB):
 print(enumTestDB)
 
 #printing the header as the solution
-# for col in db[0]:
-#     print(col+"\t")
-headers = []
-with open('./weather_test.csv', 'r') as csvfile:
-    reader = csv.reader(csvfile)
+print("Day \t Outlook \t Temperature \t Humidity \t PlayTennis \t Confidence")
+
+
+# \/ feels like a bad way to get the headers. Still need ot print them nicely, too
+# headers = []
+# with open('./weather_test.csv', 'r') as csvfile:
+#     reader = csv.reader(csvfile)
     
-    for i, row in enumerate(reader):
-        if i == 0:
-           headers.append (row)
-           break
-print(headers)
+#     for i, row in enumerate(reader):
+#         if i == 0:
+#            headers.append (row)
+#            break
+# print(headers)
 
 
 #use your test samples to make probabilistic predictions. For instance:
 #clf.predict_proba([[3, 1, 2, 1]])[0]
-#--> add your Python code here
+for recordIndex, record in enumerate(enumTestDB):
+    class_probabilities = clf.predict_proba([record])[0]
+    print("Class prob:")
+    print(class_probabilities)
+    if(class_probabilities[0] >= 0.75):
+        predicted_class = "Yes"
+        confidence = class_probabilities[0]
+    elif(class_probabilities[1] >= 0.75):
+        predicted_class = "No"
+        confidence = class_probabilities[1]
+    else:
+        predicted_class = 0
+        confidence = 0
+    
+    print("Predicted class:")
+    print(predicted_class)
+
+    if(predicted_class != 0):
+        print(testDB[recordIndex][0] + "\t" + testDB[recordIndex][1] + "\t" 
+              + testDB[recordIndex][2] + "\t" + testDB[recordIndex][3] + "\t"
+              + testDB[recordIndex][4] + "\t" + predicted_class + "\t"
+              + str(confidence)
+              )
+
+# for recordIndex, record in enumerate(enumTestDB):
+#     prob = clf.predict_proba(enumTestDB[recordIndex])[0]
+#     print(prob)
+# need index for enumTestDB to get testDb record at same index
 
 #print table of predictions with a classification confidence >= 0.75

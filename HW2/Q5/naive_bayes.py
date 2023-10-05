@@ -129,7 +129,18 @@ for i, row in enumerate(testDB):
 print(enumTestDB)
 
 #printing the header as the solution
-#--> add your Python code here
+# for col in db[0]:
+#     print(col+"\t")
+headers = []
+with open('./weather_test.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile)
+    
+    for i, row in enumerate(reader):
+        if i == 0:
+           headers.append (row)
+           break
+print(headers)
+
 
 #use your test samples to make probabilistic predictions. For instance:
 #clf.predict_proba([[3, 1, 2, 1]])[0]

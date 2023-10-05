@@ -3,7 +3,7 @@
 # FILENAME: decision_tree_2.py
 # SPECIFICATION: 
 # FOR: CS 4210 - Assignment #2
-# TIME SPENT: 
+# TIME SPENT: 2 hours
 #-----------------------------------------------------------*/
 # IMPORTANT NOTE: DO NOT USE ANY ADVANCED PYTHON LIBRARY TO COMPLETE THIS CODE SUCH AS numpy OR pandas. 
 # You have to work here only with standard dictionaries, lists, and arrays
@@ -73,7 +73,12 @@ for ds in dataSets:
     print(Y)
     
     #loop your training and test tasks 10 times here
+    avgAccuracy = 0
     for i in range (10):
+        
+        print("Round #"+str(i))
+        
+        
         #fitting the decision tree to the data setting max_depth=3
         clf = tree.DecisionTreeClassifier(criterion = 'entropy', max_depth=3)
         clf = clf.fit(X, Y)
@@ -82,19 +87,19 @@ for ds in dataSets:
         dbTest = []
         with open("contact_lens_test.csv", 'r') as csvfile:
             reader2 = csv.reader(csvfile)
-            for i, row in enumerate(reader2):
-                if i > 0: #skipping the header
+            for k, row in enumerate(reader2):
+                if k > 0: #skipping the header
                     dbTest.append (row)
                     print(row)
         
-        #for data in dbTest:
             #transform the features of the test instances to numbers following the same strategy done during training,
             #and then use the decision tree to make the class prediction. For instance: class_predicted = clf.predict([[3, 1, 2, 1]])[0]
             #where [0] is used to get an integer as the predicted class label so that you can compare it with the true label
         dbTest_enum = []
+        accuracy = 0
         for j, data in enumerate(dbTest):
             dbTest_enum.append([])
-            for col in range(len(row)-1):
+            for col in range(len(data)-1):
                 tempItem = data[col]
 
                 # Age column
@@ -126,15 +131,34 @@ for ds in dataSets:
                         dbTest_enum[j].append(1)
                     elif tempItem == "Reduced":
                         dbTest_enum[j].append(2)
-        print("Enumed: ")
-        print(dbTest_enum)            
-           
+        #print("Enumed: ")
+        #print(dbTest_enum)            
+
+            #use decision tree for prediction
+            class_predicted = clf.predict([dbTest_enum[j]])[0]
+            print("\nPredicted class: "+ str(class_predicted))
+
             #compare the prediction with the true label (located at data[4]) of the test instance to start calculating the accuracy.
-            #--> add your Python code here
-    
+            trueLabel = data[len(data)-1]
+            print("True label: "+trueLabel)
+            if(trueLabel == "Yes"):
+                trueLabel = 1
+            elif(trueLabel == "No"):
+                trueLabel = 2
+            
+            if(trueLabel == class_predicted):
+                print("matching")
+                accuracy += 1
+        print("dbTest length: "+ str(len(dbTest)))
+        accuracy /= len(dbTest)
+        print("accuracy: "+str(accuracy))
+        
+        avgAccuracy += accuracy
+        print("totalAcc: "+ str(avgAccuracy))
     #find the average of this model during the 10 runs (training and test set)
-    #--> add your Python code here
+    avgAccuracy /= 10 
+    print(avgAccuracy)
     
     #print the average accuracy of this model during the 10 runs (training and test set).
     #your output should be something like that: final accuracy when training on contact_lens_training_1.csv: 0.2
-    #--> add your Python code here
+    print("Final accuracy when training on"+ ds + ": "+str(avgAccuracy))

@@ -64,10 +64,8 @@ for ds in dataSets:
     print(X)
     
     #transform the original categorical training classes to numbers and add to the vector Y. For instance Yes = 1, No = 2, so Y = [1, 1, 2, 2, ...]
-    #--> add your Python code here
-    classLabelColIndex = 4
     for row in dbTraining:
-        tempItem = row[classLabelColIndex]
+        tempItem = row[len(row)-1]
         if tempItem == "Yes":
             Y.append(1)
         elif tempItem == "No":
@@ -79,6 +77,7 @@ for ds in dataSets:
         #fitting the decision tree to the data setting max_depth=3
         clf = tree.DecisionTreeClassifier(criterion = 'entropy', max_depth=3)
         clf = clf.fit(X, Y)
+        
         #read the test data and add this data to dbTest
         dbTest = []
         with open("contact_lens_test.csv", 'r') as csvfile:
@@ -92,7 +91,43 @@ for ds in dataSets:
             #transform the features of the test instances to numbers following the same strategy done during training,
             #and then use the decision tree to make the class prediction. For instance: class_predicted = clf.predict([[3, 1, 2, 1]])[0]
             #where [0] is used to get an integer as the predicted class label so that you can compare it with the true label
-            #--> add your Python code here
+        dbTest_enum = []
+        for j, data in enumerate(dbTest):
+            dbTest_enum.append([])
+            for col in range(len(row)-1):
+                tempItem = data[col]
+
+                # Age column
+                if col == 0:
+                    if tempItem == "Young":
+                        dbTest_enum[j].append(1)
+                    elif tempItem == "Prepresbyopic":
+                        dbTest_enum[j].append(2)
+                    elif tempItem == "Presbyopic":
+                        dbTest_enum[j].append(3)
+                
+                # Spectacle prescription col
+                if col == 1:
+                    if tempItem == "Myope":
+                        dbTest_enum[j].append(1)
+                    elif tempItem == "Hypermetrope":
+                        dbTest_enum[j].append(2)
+
+                # Astigmatism col
+                if col == 2:
+                    if tempItem == "Yes":
+                        dbTest_enum[j].append(1)
+                    elif tempItem == "No":
+                        dbTest_enum[j].append(2)
+
+                # Tear production rate col
+                if col == 3:
+                    if tempItem == "Normal":
+                        dbTest_enum[j].append(1)
+                    elif tempItem == "Reduced":
+                        dbTest_enum[j].append(2)
+        print("Enumed: ")
+        print(dbTest_enum)            
            
             #compare the prediction with the true label (located at data[4]) of the test instance to start calculating the accuracy.
             #--> add your Python code here

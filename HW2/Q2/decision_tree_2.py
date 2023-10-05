@@ -1,7 +1,11 @@
 #-------------------------------------------------------------------------
 # AUTHOR: Cleo Yau
 # FILENAME: decision_tree_2.py
-# SPECIFICATION: 
+# SPECIFICATION: Train 3 different models with the three contact_lens_training_##
+#               datasets. Use the models to predict the class labels for 
+#               contact_lens_test. Calculate the accuracy of the labels but 
+#               repeat the prediction process 10 times per model. 
+#               Find the average accuracy of the 10 runs for each model.
 # FOR: CS 4210 - Assignment #2
 # TIME SPENT: 2 hours
 #-----------------------------------------------------------*/
@@ -23,7 +27,6 @@ for ds in dataSets:
         for i, row in enumerate(reader):
             if i > 0: #skipping the header
                 dbTraining.append (row)
-                print(row)
     
     # transform the original categorical training features to numbers and add to the 4D array X. For instance Young = 1, Prepresbyopic = 2, Presbyopic = 3
     # so X = [[1, 1, 1, 1], [2, 2, 2, 2], ...]]
@@ -61,7 +64,6 @@ for ds in dataSets:
                     X[i].append(1)
                 elif tempItem == "Reduced":
                     X[i].append(2)
-    print(X)
     
     #transform the original categorical training classes to numbers and add to the vector Y. For instance Yes = 1, No = 2, so Y = [1, 1, 2, 2, ...]
     for row in dbTraining:
@@ -70,15 +72,10 @@ for ds in dataSets:
             Y.append(1)
         elif tempItem == "No":
             Y.append(2)
-    print(Y)
     
     #loop your training and test tasks 10 times here
     avgAccuracy = 0
     for i in range (10):
-        
-        print("Round #"+str(i))
-        
-        
         #fitting the decision tree to the data setting max_depth=3
         clf = tree.DecisionTreeClassifier(criterion = 'entropy', max_depth=3)
         clf = clf.fit(X, Y)
@@ -90,13 +87,14 @@ for ds in dataSets:
             for k, row in enumerate(reader2):
                 if k > 0: #skipping the header
                     dbTest.append (row)
-                    print(row)
         
-            #transform the features of the test instances to numbers following the same strategy done during training,
-            #and then use the decision tree to make the class prediction. For instance: class_predicted = clf.predict([[3, 1, 2, 1]])[0]
-            #where [0] is used to get an integer as the predicted class label so that you can compare it with the true label
+        #transform the features of the test instances to numbers following the same strategy done during training,
+        #and then use the decision tree to make the class prediction. For instance: class_predicted = clf.predict([[3, 1, 2, 1]])[0]
+        #where [0] is used to get an integer as the predicted class label so that you can compare it with the true label
         dbTest_enum = []
         accuracy = 0
+        
+        # Enumerate the test dataset
         for j, data in enumerate(dbTest):
             dbTest_enum.append([])
             for col in range(len(data)-1):
@@ -130,34 +128,27 @@ for ds in dataSets:
                     if tempItem == "Normal":
                         dbTest_enum[j].append(1)
                     elif tempItem == "Reduced":
-                        dbTest_enum[j].append(2)
-        #print("Enumed: ")
-        #print(dbTest_enum)            
+                        dbTest_enum[j].append(2)  
 
             #use decision tree for prediction
             class_predicted = clf.predict([dbTest_enum[j]])[0]
-            print("\nPredicted class: "+ str(class_predicted))
 
             #compare the prediction with the true label (located at data[4]) of the test instance to start calculating the accuracy.
             trueLabel = data[len(data)-1]
-            print("True label: "+trueLabel)
+            # Enumerate the true label
             if(trueLabel == "Yes"):
                 trueLabel = 1
             elif(trueLabel == "No"):
                 trueLabel = 2
             
+        # Calc accuracy for this round
             if(trueLabel == class_predicted):
-                print("matching")
                 accuracy += 1
-        print("dbTest length: "+ str(len(dbTest)))
         accuracy /= len(dbTest)
-        print("accuracy: "+str(accuracy))
         
         avgAccuracy += accuracy
-        print("totalAcc: "+ str(avgAccuracy))
     #find the average of this model during the 10 runs (training and test set)
     avgAccuracy /= 10 
-    print(avgAccuracy)
     
     #print the average accuracy of this model during the 10 runs (training and test set).
     #your output should be something like that: final accuracy when training on contact_lens_training_1.csv: 0.2

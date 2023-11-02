@@ -34,13 +34,14 @@ bestParameters = ""
 
 #created 4 nested for loops that will iterate through the values of c, degree, kernel, and decision_function_shape
 for c_i in c_arr:
+    print("C_i="+str(c_i))
     for degree_i in degree_arr:
         for kernelType in kernel_arr:
             for shape in decision_function_shape_arr:
                 #Create an SVM classifier that will test all combinations of c, degree, kernel, and decision_function_shape.
                 #For instance svm.SVC(c=1, degree=1, kernel="linear",decision_function_shape = "ovo")
                 clf = svm.SVC(C=c_i, degree=degree_i, kernel=kernelType, decision_function_shape=shape)
-                #svm.SVC()
+                
                 #Fit SVM to the training data
                 clf = clf.fit(x_training, y_training)
                 
@@ -60,5 +61,5 @@ for c_i in c_arr:
                     highestAccuracy = accuracy
                     bestParameters = ("Highest SVM accuracy so far: " + str(highestAccuracy) + "\n"
                                     + "Parameters: c=" + str(c_i) + ", degree=" + str(degree_i)
-                                    + ", kernel=" + kernelType + ", decision function shape=" + shape)
-                print(bestParameters)
+                                    + ", kernel=" + kernelType + ", decision function shape=" + shape + "\n")
+                    print(bestParameters)

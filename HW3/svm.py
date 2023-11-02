@@ -1,9 +1,11 @@
 #-------------------------------------------------------------------------
 # AUTHOR: your name
 # FILENAME: svm.py
-# SPECIFICATION: description of the program
+# SPECIFICATION: Create multiple SVM's w/ different parameters of 
+#                c, degree, kernel, and decision function shape. Find which
+#                SVM parameters result in the highest accuracy.
 # FOR: CS 4210 - Assignment #3
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 1 hour
 #-----------------------------------------------------------*/
 #IMPORTANT NOTE: YOU HAVE TO WORK WITH THE PYTHON LIBRARIES numpy AND pandas to complete this code.
 #importing some Python libraries
@@ -34,7 +36,6 @@ bestParameters = ""
 
 #created 4 nested for loops that will iterate through the values of c, degree, kernel, and decision_function_shape
 for c_i in c_arr:
-    print("C_i="+str(c_i))
     for degree_i in degree_arr:
         for kernelType in kernel_arr:
             for shape in decision_function_shape_arr:

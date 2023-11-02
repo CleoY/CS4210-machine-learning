@@ -2,8 +2,9 @@
 # AUTHOR: your name
 # FILENAME: svm.py
 # SPECIFICATION: Create multiple SVM's w/ different parameters of 
-#                c, degree, kernel, and decision function shape. Find which
-#                SVM parameters result in the highest accuracy.
+#                c, degree, kernel, and decision function shape. 
+#                Conduct grid search to find which SVM parameters result 
+#                in the highest accuracy.
 # FOR: CS 4210 - Assignment #3
 # TIME SPENT: 1 hour
 #-----------------------------------------------------------*/

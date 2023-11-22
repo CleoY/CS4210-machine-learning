@@ -1,7 +1,8 @@
 #-------------------------------------------------------------------------
 # AUTHOR: Cleo Yau
 # FILENAME: perceptron.py
-# SPECIFICATION: description of the program
+# SPECIFICATION: Find the best learning rate and shuffle parameters for perceptron
+#                and multi-layer perceptron classifiers.
 # FOR: CS 4210 - Assignment #4
 # TIME SPENT: 2 hours
 #-----------------------------------------------------------*/

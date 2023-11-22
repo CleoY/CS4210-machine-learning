@@ -2,9 +2,10 @@
 # AUTHOR: Cleo Yau
 # FILENAME: perceptron.py
 # SPECIFICATION: description of the program
-# FOR: CS 4210- Assignment #4
-# TIME SPENT: how long it took you to complete the assignment
+# FOR: CS 4210 - Assignment #4
+# TIME SPENT: 2 hours
 #-----------------------------------------------------------*/
+
 #IMPORTANT NOTE: YOU HAVE TO WORK WITH THE PYTHON LIBRARIES numpy AND pandas to complete this code.
 
 #importing some Python libraries
@@ -19,42 +20,50 @@ r = [True, False]
 df = pd.read_csv('optdigits.tra', sep=',', header=None) #reading the data by using Pandas library
 
 X_training = np.array(df.values)[:,:64] #getting the first 64 fields to form the feature data for training
-y_training = np.array(df.values)[:,-1] #getting the last field to form the class label for training
+Y_training = np.array(df.values)[:,-1]  #getting the last field to form the class label for training
 
 df = pd.read_csv('optdigits.tes', sep=',', header=None) #reading the data by using Pandas library
 
-X_test = np.array(df.values)[:,:64] #getting the first 64 fields to form the feature data for test
-y_test = np.array(df.values)[:,-1] #getting the last field to form the class label for test
+X_test = np.array(df.values)[:,:64]    #getting the first 64 fields to form the feature data for test
+Y_test = np.array(df.values)[:,-1]     #getting the last field to form the class label for test
 
-for : #iterates over n
-    
-    for : #iterates over r
-    #iterates over both algorithms
-    #-->add your Pyhton code here
-        
-        for : #iterates over the algorithms
+highestAccuracy = 0
+
+for nth in n: #iterates over n
+    for rth in r: #iterates over r
+        for algo in ("Perceptron", "MLPClassifier"): #iterates over the algorithms
+            accuracy = 0
+
             #Create a Neural Network classifier
-            #if Perceptron then
-            # clf = Perceptron() #use those hyperparameters: eta0 = learning rate, shuffle = shuffle the training data, max_iter=1000
-            
-            #else:
-            # clf = MLPClassifier() #use those hyperparameters:
-            # activation='logistic', learning_rate_init = learning rate, hidden_layer_sizes =
-            # number of neurons in the ith hidden layer,
-            # shuffle = shuffle the training data, max_iter=1000
-            #-->add your Pyhton code here
-            
+            if algo == "Perceptron":
+                clf = Perceptron(eta0=nth, shuffle=rth, max_iter=1000)    
+                #use these hyperparameters: eta0 = learning rate, shuffle = shuffle the training data, max_iter=1000
+            else:
+                clf = MLPClassifier(activation='logistic', learning_rate_init=nth, hidden_layer_sizes=(25, ), shuffle = rth, max_iter=1000) 
+                # use these hyperparameters: activation='logistic', learning_rate_init = learning rate,
+                # hidden_layer_sizes = number of neurons in the ith hidden layer - use 1 hidden layer with 25 neurons,
+                #       shuffle = shuffle the training data, max_iter=1000
+
             #Fit the Neural Network to the training data
-            clf.fit(X_training, y_training)
+            clf.fit(X_training, Y_training)
+
             #make the classifier prediction for each test sample and start computing its accuracy
-            #hint: to iterate over two collections simultaneously with zip()
-            #Example:
-            #for (x_testSample, y_testSample) in zip(X_test, y_test):
+            #hint: to iterate over two collections simultaneously with zip() Example:
+            for (x_testSample, y_testSample) in zip(X_test, Y_test):
             #to make a prediction do: clf.predict([x_testSample])
-            #--> add your Python code here
-            
+                prediction = clf.predict([x_testSample])
+                if prediction == y_testSample:
+                    accuracy += 1
+
             #check if the calculated accuracy is higher than the previously one calculated for each classifier. If so, update the highest accuracy
             #and print it together with the network hyperparameters
             #Example: "Highest Perceptron accuracy so far: 0.88, Parameters: learning rate=0.01, shuffle=True"
             #Example: "Highest MLP accuracy so far: 0.90, Parameters: learning rate=0.02, shuffle=False"
-            #--> add your Python code here
+            accuracy /= len(Y_test)
+            if accuracy > highestAccuracy:
+                highestAccuracy = accuracy
+                if algo == "Perceptron":
+                    print("Highest perceptron accuracy so far: ", end="")
+                else:
+                    print("Highest MLP accuracy so far: ", end="")
+                print(str(accuracy) + ", parameters: learning rate=" + str(nth) + ", shuffle=" + str(rth))

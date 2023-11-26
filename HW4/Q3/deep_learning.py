@@ -8,10 +8,15 @@
 #IMPORTANT NOTE: YOU CAN USE ANY PYTHON LIBRARY TO COMPLETE YOUR CODE.
 #importing the libraries
 import tensorflow as tf
-from tensorflow import keras
+#from tensorflow import keras
+import keras
+#from keras.util import plot_model
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import pydot
+import graphviz
+
 
 def build_model(n_hidden, n_neurons_hidden, n_neurons_output, learning_rate):
     #-->add your Python code here
@@ -21,7 +26,7 @@ def build_model(n_hidden, n_neurons_hidden, n_neurons_output, learning_rate):
     #input layer
     
     #iterate over the number of hidden layers to create the hidden layers:
-    for layers in n_hidden:
+    for layers in range (1, n_hidden):
         model.add(keras.layers.Dense(n_neurons_hidden, activation="relu"))
         #hidden layer with ReLU activation function
     
@@ -87,10 +92,10 @@ for h in n_hidden: #looking or the best parameters w.r.t the number of hidden la
             if accuracy > highestAccuracy:
                 highestAccuracy = accuracy
 
-            print("Highest accuracy so far: " + str(highestAccuracy))
-            print("Parameters: " + "Number of Hidden Layers: " + str(h) + ",number of neurons: " 
-                  + str(n) + ",learning rate: " + str(l))
-            print()
+                print("Highest accuracy so far: " + str(highestAccuracy))
+                print("Parameters: " + "Number of Hidden Layers: " + str(h) + ",number of neurons: " 
+                    + str(n) + ",learning rate: " + str(l))
+                print()
 
 #After generating all neural networks, print the summary of the best model found
 #The model’s summary() method displays all the model’s layers, including each
@@ -101,8 +106,10 @@ for h in n_hidden: #looking or the best parameters w.r.t the number of hidden la
 # risk of overfitting, especially when you do not have a lot of training data.
 
 print(model.summary())
-img_file = './model_arch.png'
-tf.keras.utils.plot_model(model, to_file=img_file, show_shapes=True, show_layer_names=True)
+img_file = './Q3/model_arch.png'
+tf.keras.utils.plot_model(model, show_shapes=True, show_layer_names=True)
+#keras.utils.plot_model(model, show_shapes=True, show_layer_names=True, to_file='model.png')
+#tf.keras.utils.plot_model(model, show_shapes=True, show_layer_names=True, to_file='model.png')
 
 #plotting the learning curves of the best model
 pd.DataFrame(history.history).plot(figsize=(8, 5))

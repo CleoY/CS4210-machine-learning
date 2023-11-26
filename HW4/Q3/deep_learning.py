@@ -1,16 +1,16 @@
 #-------------------------------------------------------------------------
 # AUTHOR: Cleo Yau
 # FILENAME: deep_learning.py
-# SPECIFICATION: description of the program
-# FOR: CS 4210- Assignment #4
-# TIME SPENT: how long it took you to complete the assignment
+# SPECIFICATION: Train and compare the accuracies of multiple deep learning
+#               models w/ different parameters. Models are trained to classify
+#               different clothing item images.
+# FOR: CS 4210 - Assignment #4
+# TIME SPENT: 5 days
 #-----------------------------------------------------------*/
 #IMPORTANT NOTE: YOU CAN USE ANY PYTHON LIBRARY TO COMPLETE YOUR CODE.
 #importing the libraries
 import tensorflow as tf
-#from tensorflow import keras
 import keras
-#from keras.util import plot_model
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
